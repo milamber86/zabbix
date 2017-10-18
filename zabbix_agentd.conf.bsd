@@ -7,24 +7,3 @@ ListenPort=<PORT>
 Include=/usr/local/etc/zabbix34/zabbix_agentd.conf.d/
 HostMetadataItem=system.uname
 AllowRoot=1
-#### 3.4
-UserParameter=uHDD.sas.temp[*],/usr/local/sbin/smartctl -a $1 | grep "Current Drive Temperature" | sed -r 's|Current Drive Temperature:     (.*) C$|\1|'
-UserParameter=uHDD.sas.gdl[*],/usr/local/sbin/smartctl -a $1 | grep "Elements in grown defect list:" | sed -r 's|Elements in grown defect list: (.*)$|\1|'
-UserParameter=uHDD.sas.uer[*],/usr/local/sbin/smartctl -a $1 | grep "read:" | awk '{print $NF}'
-UserParameter=uHDD.sas.erc[*],/usr/local/sbin/smartctl -a $1 | grep "Non-medium error count:" | awk '{print $NF}'
-UserParameter=uHDD[*],/usr/local/sbin/smartctl -A $1| grep -i "$2"| tail -1| cut -c 88-|cut -f1 -d' '
-UserParameter=uHDD.model.[*],/usr/local/sbin/smartctl -i $1 |grep -i "Device Model"| cut -f2 -d: |tr -d " "
-UserParameter=uHDD.model.sas.[*],/usr/local/sbin/smartctl -i $1 |grep -i "Product"| cut -f2 -d: |tr -d " "
-UserParameter=uHDD.sn.[*],/usr/local/sbin/smartctl -i $1 |grep -i "Serial Number"| cut -f2 -d: |tr -d " "
-UserParameter=uHDD.sn.sas.[*],/usr/local/sbin/smartctl -i $1 |grep -i "Serial Number"| cut -f2 -d: |tr -d " "
-UserParameter=uHDD.health.[*],/usr/local/sbin/smartctl -H $1 |grep -i "test"| cut -f2 -d: |tr -d " " || true
-UserParameter=uHDD.errorlog.[*],/usr/local/sbin/smartctl -l error $1 |grep -i "ATA Error Count"| cut -f2 -d: |tr -d " " || true
-UserParameter=uHDD.a[*],/usr/local/sbin/smartctl -a $1
-UserParameter=uHDD.A[*],/usr/local/sbin/smartctl -A $1
-UserParameter=uHDD.i[*],/usr/local/sbin/smartctl -i $1
-UserParameter=uHDD.i.sas[*],/usr/local/sbin/smartctl -i $1
-UserParameter=uHDD.health.sata[*],/usr/local/sbin/smartctl -H $1 || true
-UserParameter=uHDD.health.sas[*],/usr/local/sbin/smartctl -H $1 || true
-### Discovery
-UserParameter=uHDD.discovery.sas,/usr/local/etc/zabbix34/smartctl-disks-discovery.pl
-UserParameter=uHDD.discovery.sata,/usr/local/etc/zabbix34/smartctl-disks-discovery.pl
