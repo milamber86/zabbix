@@ -7,3 +7,4 @@ ListenPort=<PORT>
 Include=/etc/zabbix/zabbix_agentd.conf.d/
 HostMetadataItem=system.uname
 AllowRoot=1
+Timeout=30
